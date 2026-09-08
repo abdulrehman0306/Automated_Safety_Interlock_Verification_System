@@ -434,7 +434,7 @@ tag. Every shape in items 9 to 11 is now a case in the test corpus.
     and worse, it let the rule checker take credit for catching genuinely unsafe
     outputs for a reason that was not true. The rule now judges only the
     comparison that drives the shutdown, which is what it always should have
-    done. Stage 2 dropped from 17 catches to 16 and its false positives went
+    done. Stage 2 dropped from 25 catches to 16 and its false positives went
     from 1 to 0.
 
     I found this only because I built `show_case.py` to read individual
