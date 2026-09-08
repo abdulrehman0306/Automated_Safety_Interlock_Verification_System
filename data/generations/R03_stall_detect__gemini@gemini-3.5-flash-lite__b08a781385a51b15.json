@@ -1,0 +1,10 @@
+{
+  "req_id": "R03_stall_detect",
+  "provider": "gemini@gemini-3.5-flash-lite",
+  "model": "gemini-3.5-flash-lite",
+  "attempt": 0,
+  "prompt": "If the start command has been given and the motor has been energised but the shaft speed is still under 50 rpm after 5 seconds, shut the motor down.",
+  "raw_response": "VAR\n    Startup_Timer : TON;\nEND_VAR\n\n// If the motor is commanded to start and running, but speed is low, trigger timer\nStartup_Timer(IN := Start_Command AND Motor_Running AND (Motor_Speed < 50.0),\n              PT := T#5S);\n\n// If timer times out, shut down the motor\nIF Startup_Timer.Q THEN\n    Motor_Stop := TRUE;\nEND_IF;\n\n// Reset the stop command when the start command is removed or fault is reset\nIF NOT Start_Command AND Fault_Reset THEN\n    Motor_Stop := FALSE;\nEND_IF;",
+  "code": "VAR\n    Startup_Timer : TON;\nEND_VAR\n\n// If the motor is commanded to start and running, but speed is low, trigger timer\nStartup_Timer(IN := Start_Command AND Motor_Running AND (Motor_Speed < 50.0),\n              PT := T#5S);\n\n// If timer times out, shut down the motor\nIF Startup_Timer.Q THEN\n    Motor_Stop := TRUE;\nEND_IF;\n\n// Reset the stop command when the start command is removed or fault is reset\nIF NOT Start_Command AND Fault_Reset THEN\n    Motor_Stop := FALSE;\nEND_IF;",
+  "error": null
+}

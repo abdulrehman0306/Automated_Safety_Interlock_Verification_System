@@ -1,0 +1,10 @@
+{
+  "req_id": "R06_latched_trip",
+  "provider": "gemini@gemini-3.6-flash",
+  "model": "gemini-3.6-flash",
+  "attempt": 0,
+  "prompt": "Once the overload trip at 51.9 A has fired, the motor must stay stopped until an operator presses fault reset. Trip delay 3 seconds.",
+  "raw_response": "VAR\n    Overload_Timer : TON;\nEND_VAR\n\nOverload_Timer(IN := (Motor_Current > 51.9), PT := T#3S);\n\nIF Overload_Timer.Q THEN\n    Motor_Stop := TRUE;\n    Overload_Alarm := TRUE;\nEND_IF;\n\nIF Fault_Reset THEN\n    Motor_Stop := FALSE;\n    Overload_Alarm := FALSE;\nEND_IF;",
+  "code": "VAR\n    Overload_Timer : TON;\nEND_VAR\n\nOverload_Timer(IN := (Motor_Current > 51.9), PT := T#3S);\n\nIF Overload_Timer.Q THEN\n    Motor_Stop := TRUE;\n    Overload_Alarm := TRUE;\nEND_IF;\n\nIF Fault_Reset THEN\n    Motor_Stop := FALSE;\n    Overload_Alarm := FALSE;\nEND_IF;",
+  "error": null
+}

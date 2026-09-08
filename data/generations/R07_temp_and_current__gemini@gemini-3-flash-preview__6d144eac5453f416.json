@@ -1,0 +1,10 @@
+{
+  "req_id": "R07_temp_and_current",
+  "provider": "gemini@gemini-3-flash-preview",
+  "model": "gemini-3-flash-preview",
+  "attempt": 0,
+  "prompt": "Shut the motor down on either winding temperature above 140 degrees C or current above 51.9 A held for 3 seconds.",
+  "raw_response": "VAR\n    Overload_Timer : TON;\nEND_VAR\n\nOverload_Timer(IN := (Motor_Current > 51.9), PT := T#3S);\n\nIF (Motor_Winding_Temp > 140.0) OR Overload_Timer.Q THEN\n    Motor_Stop := TRUE;\nEND_IF;\n\nIF Fault_Reset THEN\n    Motor_Stop := FALSE;\nEND_IF;",
+  "code": "VAR\n    Overload_Timer : TON;\nEND_VAR\n\nOverload_Timer(IN := (Motor_Current > 51.9), PT := T#3S);\n\nIF (Motor_Winding_Temp > 140.0) OR Overload_Timer.Q THEN\n    Motor_Stop := TRUE;\nEND_IF;\n\nIF Fault_Reset THEN\n    Motor_Stop := FALSE;\nEND_IF;",
+  "error": null
+}

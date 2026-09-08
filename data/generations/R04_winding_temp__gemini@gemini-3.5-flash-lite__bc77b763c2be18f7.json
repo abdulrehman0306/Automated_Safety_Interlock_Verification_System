@@ -1,0 +1,10 @@
+{
+  "req_id": "R04_winding_temp",
+  "provider": "gemini@gemini-3.5-flash-lite",
+  "model": "gemini-3.5-flash-lite",
+  "attempt": 0,
+  "prompt": "Shut the motor down if the winding temperature exceeds 140 degrees C. The insulation is class F.",
+  "raw_response": "VAR\n    Temp_Overheat_Timer : TON;\nEND_VAR\n\n// Class F insulation has a maximum continuous winding temperature limit typically around 155\u00b0C, \n// but shutting down at 140\u00b0C provides a safe margin before insulation degradation occurs.\n\nIF Motor_Winding_Temp > 140.0 THEN\n    Motor_Stop := TRUE;\nELSE\n    // Allow stop to be cleared if fault is reset, handled elsewhere or tied to start conditions\n    IF Fault_Reset THEN\n        Motor_Stop := FALSE;\n    END_IF;\nEND_IF;",
+  "code": "VAR\n    Temp_Overheat_Timer : TON;\nEND_VAR\n\n// Class F insulation has a maximum continuous winding temperature limit typically around 155\u00b0C, \n// but shutting down at 140\u00b0C provides a safe margin before insulation degradation occurs.\n\nIF Motor_Winding_Temp > 140.0 THEN\n    Motor_Stop := TRUE;\nELSE\n    // Allow stop to be cleared if fault is reset, handled elsewhere or tied to start conditions\n    IF Fault_Reset THEN\n        Motor_Stop := FALSE;\n    END_IF;\nEND_IF;",
+  "error": null
+}

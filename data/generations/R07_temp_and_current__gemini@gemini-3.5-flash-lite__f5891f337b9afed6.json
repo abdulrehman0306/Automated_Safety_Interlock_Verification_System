@@ -1,0 +1,10 @@
+{
+  "req_id": "R07_temp_and_current",
+  "provider": "gemini@gemini-3.5-flash-lite",
+  "model": "gemini-3.5-flash-lite",
+  "attempt": 0,
+  "prompt": "Shut the motor down on either winding temperature above 140 degrees C or current above 51.9 A held for 3 seconds.",
+  "raw_response": "VAR\n    Current_Overload_Timer : TON;\nEND_VAR\n\n// Evaluate fault conditions and control motor stop and overload alarm\nIF Motor_Winding_Temp > 140.0 OR (Motor_Current > 51.9 AND Motor_Running) THEN\n    Current_Overload_Timer(IN := TRUE, PT := T#3S);\nELSE\n    Current_Overload_Timer(IN := FALSE, PT := T#3S);\nEND_IF;\n\n// Latch or trigger stop and overload based on conditions\nIF Motor_Winding_Temp > 140.0 OR Current_Overload_Timer.Q THEN\n    Motor_Stop := TRUE;\n    Overload_Alarm := TRUE;\nELSIF Fault_Reset THEN\n    Motor_Stop := FALSE;\n    Overload_Alarm := FALSE;\nEND_IF;",
+  "code": "VAR\n    Current_Overload_Timer : TON;\nEND_VAR\n\n// Evaluate fault conditions and control motor stop and overload alarm\nIF Motor_Winding_Temp > 140.0 OR (Motor_Current > 51.9 AND Motor_Running) THEN\n    Current_Overload_Timer(IN := TRUE, PT := T#3S);\nELSE\n    Current_Overload_Timer(IN := FALSE, PT := T#3S);\nEND_IF;\n\n// Latch or trigger stop and overload based on conditions\nIF Motor_Winding_Temp > 140.0 OR Current_Overload_Timer.Q THEN\n    Motor_Stop := TRUE;\n    Overload_Alarm := TRUE;\nELSIF Fault_Reset THEN\n    Motor_Stop := FALSE;\n    Overload_Alarm := FALSE;\nEND_IF;",
+  "error": null
+}

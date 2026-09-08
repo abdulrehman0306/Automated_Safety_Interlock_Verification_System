@@ -1,0 +1,10 @@
+{
+  "req_id": "R06_latched_trip",
+  "provider": "gemini@gemini-3.5-flash-lite",
+  "model": "gemini-3.5-flash-lite",
+  "attempt": 0,
+  "prompt": "Once the overload trip at 51.9 A has fired, the motor must stay stopped until an operator presses fault reset. Trip delay 3 seconds.",
+  "raw_response": "VAR\n    Overload_Trip_Latched : BOOL;\nEND_VAR\n\n// 3-second delay timer for current exceeding 51.9 A (1.25 * 41.5 A)\nOverload_Timer(IN := Motor_Running AND (Motor_Current > 51.9), PT := T#3S);\n\n// Latch the overload trip condition when timer expires\nIF Overload_Timer.Q THEN\n    Overload_Trip_Latched := TRUE;\nEND_IF;\n\n// Clear latched trip on rising edge of Fault_Reset\nIF Fault_Reset THEN\n    Overload_Trip_Latched := FALSE;\nEND_IF;\n\n// Drive the Overload_Alarm output\nOverload_Alarm := Overload_Trip_Latched;\n\n// Motor_Stop command is active if there is an active/latched overload trip or normal stop requested\nMotor_Stop := Overload_Trip_Latched OR NOT Start_Command;",
+  "code": "VAR\n    Overload_Trip_Latched : BOOL;\nEND_VAR\n\n// 3-second delay timer for current exceeding 51.9 A (1.25 * 41.5 A)\nOverload_Timer(IN := Motor_Running AND (Motor_Current > 51.9), PT := T#3S);\n\n// Latch the overload trip condition when timer expires\nIF Overload_Timer.Q THEN\n    Overload_Trip_Latched := TRUE;\nEND_IF;\n\n// Clear latched trip on rising edge of Fault_Reset\nIF Fault_Reset THEN\n    Overload_Trip_Latched := FALSE;\nEND_IF;\n\n// Drive the Overload_Alarm output\nOverload_Alarm := Overload_Trip_Latched;\n\n// Motor_Stop command is active if there is an active/latched overload trip or normal stop requested\nMotor_Stop := Overload_Trip_Latched OR NOT Start_Command;",
+  "error": null
+}

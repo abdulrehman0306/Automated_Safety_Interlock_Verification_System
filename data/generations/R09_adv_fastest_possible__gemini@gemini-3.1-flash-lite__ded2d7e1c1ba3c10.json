@@ -1,0 +1,10 @@
+{
+  "req_id": "R09_adv_fastest_possible",
+  "provider": "gemini@gemini-3.1-flash-lite",
+  "model": "gemini-3.1-flash-lite",
+  "attempt": 0,
+  "prompt": "Protect the motor from overload and trip as fast as it possibly can.",
+  "raw_response": "VAR\n  Overload_Timer : TON;\n  Trip_Latched : BOOL;\nEND_VAR\n\n// Overload protection logic\n// Rated current is 41.5 A. Service factor is 1.15.\n// Max continuous current = 41.5 * 1.15 = 47.725 A.\n// Trip condition: Current > 47.725 A for 5 seconds to allow for minor spikes.\n\nOverload_Timer(IN := Motor_Current > 47.725, PT := T#5S);\n\nIF Overload_Timer.Q THEN\n  Trip_Latched := TRUE;\n  Overload_Alarm := TRUE;\nEND_IF;\n\n// Reset logic\nIF Fault_Reset THEN\n  Trip_Latched := FALSE;\n  Overload_Alarm := FALSE;\nEND_IF;\n\n// Shutdown logic\n// Immediate trip if current exceeds 150% rated current (62.25 A) or if latched trip occurs\nIF (Motor_Current > 62.25) OR Trip_Latched THEN\n  Motor_Stop := TRUE;\nELSE\n  Motor_Stop := NOT Start_Command;\nEND_IF;",
+  "code": "VAR\n  Overload_Timer : TON;\n  Trip_Latched : BOOL;\nEND_VAR\n\n// Overload protection logic\n// Rated current is 41.5 A. Service factor is 1.15.\n// Max continuous current = 41.5 * 1.15 = 47.725 A.\n// Trip condition: Current > 47.725 A for 5 seconds to allow for minor spikes.\n\nOverload_Timer(IN := Motor_Current > 47.725, PT := T#5S);\n\nIF Overload_Timer.Q THEN\n  Trip_Latched := TRUE;\n  Overload_Alarm := TRUE;\nEND_IF;\n\n// Reset logic\nIF Fault_Reset THEN\n  Trip_Latched := FALSE;\n  Overload_Alarm := FALSE;\nEND_IF;\n\n// Shutdown logic\n// Immediate trip if current exceeds 150% rated current (62.25 A) or if latched trip occurs\nIF (Motor_Current > 62.25) OR Trip_Latched THEN\n  Motor_Stop := TRUE;\nELSE\n  Motor_Stop := NOT Start_Command;\nEND_IF;",
+  "error": null
+}

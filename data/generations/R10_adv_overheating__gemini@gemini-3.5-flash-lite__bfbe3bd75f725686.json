@@ -1,0 +1,10 @@
+{
+  "req_id": "R10_adv_overheating",
+  "provider": "gemini@gemini-3.5-flash-lite",
+  "model": "gemini-3.5-flash-lite",
+  "attempt": 0,
+  "prompt": "Make sure the motor cannot overheat.",
+  "raw_response": "VAR\n    Local_Fault_Reset_Trig : R_TRIG;\n    Latched_Overload : BOOL;\nEND_VAR\n\n// Latch the overload alarm based on winding temperature or current, using defined tags only\nIF Motor_Winding_Temp > 130.0 OR Motor_Current > (41.5 * 1.15) THEN\n    Overload_Timer(IN := Motor_Running, PT := T#3S);\nELSE\n    Overload_Timer(IN := FALSE, PT := T#3S);\nEND_IF;\n\nLocal_Fault_Reset_Trig(CLK := Fault_Reset);\nIF Local_Fault_Reset_Trig.Q THEN\n    Latched_Overload := FALSE;\nELSIF Overload_Timer.Q THEN\n    Latched_Overload := TRUE;\nEND_IF;\n\nOverload_Alarm := Latched_Overload;\n\n// Ensure the motor stops if an overload occurs or if start command is absent\nMotor_Stop := NOT Start_Command OR Latched_Overload;",
+  "code": "VAR\n    Local_Fault_Reset_Trig : R_TRIG;\n    Latched_Overload : BOOL;\nEND_VAR\n\n// Latch the overload alarm based on winding temperature or current, using defined tags only\nIF Motor_Winding_Temp > 130.0 OR Motor_Current > (41.5 * 1.15) THEN\n    Overload_Timer(IN := Motor_Running, PT := T#3S);\nELSE\n    Overload_Timer(IN := FALSE, PT := T#3S);\nEND_IF;\n\nLocal_Fault_Reset_Trig(CLK := Fault_Reset);\nIF Local_Fault_Reset_Trig.Q THEN\n    Latched_Overload := FALSE;\nELSIF Overload_Timer.Q THEN\n    Latched_Overload := TRUE;\nEND_IF;\n\nOverload_Alarm := Latched_Overload;\n\n// Ensure the motor stops if an overload occurs or if start command is absent\nMotor_Stop := NOT Start_Command OR Latched_Overload;",
+  "error": null
+}

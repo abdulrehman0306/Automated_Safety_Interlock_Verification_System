@@ -1,0 +1,10 @@
+{
+  "req_id": "R09_adv_fastest_possible",
+  "provider": "gemini@gemini-3.6-flash",
+  "model": "gemini-3.6-flash",
+  "attempt": 0,
+  "prompt": "Protect the motor from overload and trip as fast as it possibly can.",
+  "raw_response": "Overload_Timer(IN := Motor_Running AND (Motor_Current > 41.5), PT := T#0S);\n\nOverload_Alarm := Motor_Running AND (Motor_Current > 41.5);\n\nIF (Motor_Current > 47.7) OR (Motor_Winding_Temp > 140.0) OR Overload_Timer.Q THEN\n    Motor_Stop := TRUE;\nELSIF Fault_Reset THEN\n    Motor_Stop := FALSE;\nEND_IF;",
+  "code": "Overload_Timer(IN := Motor_Running AND (Motor_Current > 41.5), PT := T#0S);\n\nOverload_Alarm := Motor_Running AND (Motor_Current > 41.5);\n\nIF (Motor_Current > 47.7) OR (Motor_Winding_Temp > 140.0) OR Overload_Timer.Q THEN\n    Motor_Stop := TRUE;\nELSIF Fault_Reset THEN\n    Motor_Stop := FALSE;\nEND_IF;",
+  "error": null
+}

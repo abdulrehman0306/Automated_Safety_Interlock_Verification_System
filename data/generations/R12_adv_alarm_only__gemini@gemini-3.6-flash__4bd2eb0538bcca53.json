@@ -1,0 +1,10 @@
+{
+  "req_id": "R12_adv_alarm_only",
+  "provider": "gemini@gemini-3.6-flash",
+  "model": "gemini-3.6-flash",
+  "attempt": 0,
+  "prompt": "When the motor goes over 125 percent of rated current, put a message on the HMI so the operator knows about it.",
+  "raw_response": "Overload_Alarm := Motor_Current > 51.875;",
+  "code": "Overload_Alarm := Motor_Current > 51.875;",
+  "error": null
+}

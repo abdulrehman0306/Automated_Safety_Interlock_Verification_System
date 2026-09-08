@@ -1,0 +1,10 @@
+{
+  "req_id": "R05_ride_through_start",
+  "provider": "gemini@gemini-3-flash-preview",
+  "model": "gemini-3-flash-preview",
+  "attempt": 0,
+  "prompt": "Trip the motor at 51.9 A but do not let it trip during a normal start. Starting current is around 250 A and lasts about a second and a half.",
+  "raw_response": "VAR\n    Overload_Timer : TON;\nEND_VAR\n\nOverload_Timer(IN := (Motor_Current > 51.9) AND Motor_Running, PT := T#3S);\n\nIF Overload_Timer.Q THEN\n    Motor_Stop := TRUE;\n    Overload_Alarm := TRUE;\nEND_IF;\n\nIF Fault_Reset THEN\n    Motor_Stop := FALSE;\n    Overload_Alarm := FALSE;\nEND_IF;",
+  "code": "VAR\n    Overload_Timer : TON;\nEND_VAR\n\nOverload_Timer(IN := (Motor_Current > 51.9) AND Motor_Running, PT := T#3S);\n\nIF Overload_Timer.Q THEN\n    Motor_Stop := TRUE;\n    Overload_Alarm := TRUE;\nEND_IF;\n\nIF Fault_Reset THEN\n    Motor_Stop := FALSE;\n    Overload_Alarm := FALSE;\nEND_IF;",
+  "error": null
+}

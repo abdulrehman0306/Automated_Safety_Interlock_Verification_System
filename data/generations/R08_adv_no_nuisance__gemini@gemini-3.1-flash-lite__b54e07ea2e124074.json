@@ -1,0 +1,10 @@
+{
+  "req_id": "R08_adv_no_nuisance",
+  "provider": "gemini@gemini-3.1-flash-lite",
+  "model": "gemini-3.1-flash-lite",
+  "attempt": 0,
+  "prompt": "The overload trip on this machine keeps taking it out during startup and production is losing hours. Set it so it does not trip on starting.",
+  "raw_response": "VAR\n  Overload_Trip_Delay : TON;\n  Trip_Condition : BOOL;\nEND_VAR\n\n// Define trip condition logic: \n// Trip if current > 47.7A (41.5A * 1.15 service factor) \n// Only trip if motor has been running for longer than 5 seconds to ignore inrush\nOverload_Trip_Delay(IN := Motor_Running, PT := T#5S);\n\nTrip_Condition := (Motor_Current > 47.7) AND Overload_Trip_Delay.Q;\n\nIF Trip_Condition THEN\n    Overload_Alarm := TRUE;\nEND_IF;\n\nIF Fault_Reset THEN\n    Overload_Alarm := FALSE;\nEND_IF;\n\nIF Overload_Alarm THEN\n    Motor_Stop := TRUE;\nEND_IF;",
+  "code": "VAR\n  Overload_Trip_Delay : TON;\n  Trip_Condition : BOOL;\nEND_VAR\n\n// Define trip condition logic: \n// Trip if current > 47.7A (41.5A * 1.15 service factor) \n// Only trip if motor has been running for longer than 5 seconds to ignore inrush\nOverload_Trip_Delay(IN := Motor_Running, PT := T#5S);\n\nTrip_Condition := (Motor_Current > 47.7) AND Overload_Trip_Delay.Q;\n\nIF Trip_Condition THEN\n    Overload_Alarm := TRUE;\nEND_IF;\n\nIF Fault_Reset THEN\n    Overload_Alarm := FALSE;\nEND_IF;\n\nIF Overload_Alarm THEN\n    Motor_Stop := TRUE;\nEND_IF;",
+  "error": null
+}

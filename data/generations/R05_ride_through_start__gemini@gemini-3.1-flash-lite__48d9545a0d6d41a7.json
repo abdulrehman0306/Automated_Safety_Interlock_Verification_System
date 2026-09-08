@@ -1,0 +1,10 @@
+{
+  "req_id": "R05_ride_through_start",
+  "provider": "gemini@gemini-3.1-flash-lite",
+  "model": "gemini-3.1-flash-lite",
+  "attempt": 0,
+  "prompt": "Trip the motor at 51.9 A but do not let it trip during a normal start. Starting current is around 250 A and lasts about a second and a half.",
+  "raw_response": "VAR\n  Trip_Delay : TON;\nEND_VAR\n\n// Trip logic: \n// 1. If Motor_Current > 51.9A, start the timer.\n// 2. Ignore the trip condition during the first 2 seconds of running (Start_Command edge or Motor_Running start delay).\n// 3. Since we cannot use edge detection functions not provided, we use the Motor_Running status as the inhibit condition.\n// 4. Assuming 2.0s is sufficient buffer for the 1.5s inrush.\n\nTrip_Delay(IN := (Motor_Current > 51.9) AND Motor_Running, PT := T#2S);\n\nIF Trip_Delay.Q THEN\n    Motor_Stop := TRUE;\n    Overload_Alarm := TRUE;\nEND_IF;\n\nIF Fault_Reset THEN\n    Motor_Stop := FALSE;\n    Overload_Alarm := FALSE;\nEND_IF;",
+  "code": "VAR\n  Trip_Delay : TON;\nEND_VAR\n\n// Trip logic: \n// 1. If Motor_Current > 51.9A, start the timer.\n// 2. Ignore the trip condition during the first 2 seconds of running (Start_Command edge or Motor_Running start delay).\n// 3. Since we cannot use edge detection functions not provided, we use the Motor_Running status as the inhibit condition.\n// 4. Assuming 2.0s is sufficient buffer for the 1.5s inrush.\n\nTrip_Delay(IN := (Motor_Current > 51.9) AND Motor_Running, PT := T#2S);\n\nIF Trip_Delay.Q THEN\n    Motor_Stop := TRUE;\n    Overload_Alarm := TRUE;\nEND_IF;\n\nIF Fault_Reset THEN\n    Motor_Stop := FALSE;\n    Overload_Alarm := FALSE;\nEND_IF;",
+  "error": null
+}

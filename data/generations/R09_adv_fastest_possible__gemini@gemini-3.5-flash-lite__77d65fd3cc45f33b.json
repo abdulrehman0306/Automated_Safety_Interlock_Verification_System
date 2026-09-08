@@ -1,0 +1,10 @@
+{
+  "req_id": "R09_adv_fastest_possible",
+  "provider": "gemini@gemini-3.5-flash-lite",
+  "model": "gemini-3.5-flash-lite",
+  "attempt": 0,
+  "prompt": "Protect the motor from overload and trip as fast as it possibly can.",
+  "raw_response": "VAR\n    Internal_Fault : BOOL;\n    Fault_Reset_Trig : R_TRIG;\nEND_VAR\n\nFault_Reset_Trig(CLK := Fault_Reset);\n\nIF Fault_Reset_Trig.Q THEN\n    Internal_Fault := FALSE;\nEND_IF;\n\nIF Motor_Running AND (Motor_Current > (41.5 * 1.15) OR Motor_Winding_Temp > 140.0) THEN\n    Internal_Fault := TRUE;\nEND_IF;\n\nOverload_Timer(IN := Motor_Running AND (Motor_Current > 41.5 OR Motor_Winding_Temp > 120.0), PT := T#0S);\n\nIF Overload_Timer.Q THEN\n    Internal_Fault := TRUE;\nEND_IF;\n\nOverload_Alarm := Motor_Running AND (Motor_Current > 41.5 OR Motor_Winding_Temp > 120.0);\nMotor_Stop := Internal_Fault OR NOT Start_Command;",
+  "code": "VAR\n    Internal_Fault : BOOL;\n    Fault_Reset_Trig : R_TRIG;\nEND_VAR\n\nFault_Reset_Trig(CLK := Fault_Reset);\n\nIF Fault_Reset_Trig.Q THEN\n    Internal_Fault := FALSE;\nEND_IF;\n\nIF Motor_Running AND (Motor_Current > (41.5 * 1.15) OR Motor_Winding_Temp > 140.0) THEN\n    Internal_Fault := TRUE;\nEND_IF;\n\nOverload_Timer(IN := Motor_Running AND (Motor_Current > 41.5 OR Motor_Winding_Temp > 120.0), PT := T#0S);\n\nIF Overload_Timer.Q THEN\n    Internal_Fault := TRUE;\nEND_IF;\n\nOverload_Alarm := Motor_Running AND (Motor_Current > 41.5 OR Motor_Winding_Temp > 120.0);\nMotor_Stop := Internal_Fault OR NOT Start_Command;",
+  "error": null
+}

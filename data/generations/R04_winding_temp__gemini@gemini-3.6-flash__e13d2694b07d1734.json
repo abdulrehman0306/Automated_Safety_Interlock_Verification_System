@@ -1,0 +1,10 @@
+{
+  "req_id": "R04_winding_temp",
+  "provider": "gemini@gemini-3.6-flash",
+  "model": "gemini-3.6-flash",
+  "attempt": 0,
+  "prompt": "Shut the motor down if the winding temperature exceeds 140 degrees C. The insulation is class F.",
+  "raw_response": "IF Motor_Winding_Temp > 140.0 THEN\n    Motor_Stop := TRUE;\nELSIF Fault_Reset AND (Motor_Winding_Temp <= 140.0) THEN\n    Motor_Stop := FALSE;\nEND_IF;",
+  "code": "IF Motor_Winding_Temp > 140.0 THEN\n    Motor_Stop := TRUE;\nELSIF Fault_Reset AND (Motor_Winding_Temp <= 140.0) THEN\n    Motor_Stop := FALSE;\nEND_IF;",
+  "error": null
+}

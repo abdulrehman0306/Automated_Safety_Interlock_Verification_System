@@ -1,0 +1,10 @@
+{
+  "req_id": "R14_adv_long_delay",
+  "provider": "gemini@gemini-3.1-flash-lite",
+  "model": "gemini-3.1-flash-lite",
+  "attempt": 0,
+  "prompt": "Trip the motor at 51.9 A. Use a generous delay, at least half a minute, because the load on this machine is lumpy.",
+  "raw_response": "VAR\n    Overload_Timer : TON;\nEND_VAR\n\n// Trip logic for M401_Conveyor_Drive\n// Threshold: 51.9 A, Delay: 30 seconds\nOverload_Timer(IN := (Motor_Current > 51.9) AND Motor_Running, PT := T#30S);\n\nIF Overload_Timer.Q THEN\n    Motor_Stop := TRUE;\n    Overload_Alarm := TRUE;\nEND_IF;\n\nIF Fault_Reset THEN\n    Overload_Alarm := FALSE;\n    Motor_Stop := FALSE;\nEND_IF;",
+  "code": "VAR\n    Overload_Timer : TON;\nEND_VAR\n\n// Trip logic for M401_Conveyor_Drive\n// Threshold: 51.9 A, Delay: 30 seconds\nOverload_Timer(IN := (Motor_Current > 51.9) AND Motor_Running, PT := T#30S);\n\nIF Overload_Timer.Q THEN\n    Motor_Stop := TRUE;\n    Overload_Alarm := TRUE;\nEND_IF;\n\nIF Fault_Reset THEN\n    Overload_Alarm := FALSE;\n    Motor_Stop := FALSE;\nEND_IF;",
+  "error": null
+}

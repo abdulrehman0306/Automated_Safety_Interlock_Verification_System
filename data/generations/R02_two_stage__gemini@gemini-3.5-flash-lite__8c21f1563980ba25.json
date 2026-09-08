@@ -1,0 +1,10 @@
+{
+  "req_id": "R02_two_stage",
+  "provider": "gemini@gemini-3.5-flash-lite",
+  "model": "gemini-3.5-flash-lite",
+  "attempt": 0,
+  "prompt": "The motor is rated 41.5 A. At 110 percent of rated current put the machine into safe mode and raise the overload alarm. At 125 percent shut the motor down completely. Use a 3 second delay on the shutdown.",
+  "raw_response": "VAR\n    Overload_Timer : TON;\nEND_VAR\n\n// Calculate thresholds based on rated current (41.5 A)\n// 110% = 45.65 A\n// 125% = 51.875 A\n\n// Safe mode and Overload Alarm at 110% (45.65 A) when running\nIF Motor_Running AND (Motor_Current >= 45.65) THEN\n    Safe_Mode_Active := TRUE;\n    Overload_Alarm := TRUE;\nEND_IF;\n\n// Reset Safe Mode and Overload Alarm on Fault_Reset rising edge (if current is normal)\nIF Fault_Reset AND (Motor_Current < 45.65) THEN\n    Safe_Mode_Active := FALSE;\n    Overload_Alarm := FALSE;\nEND_IF;\n\n// Shutdown timer at 125% (51.875 A)\nOverload_Timer(IN := Motor_Running AND (Motor_Current >= 51.875),\n               PT := T#3S);\n\n// Shutdown motor after 3 second delay\nIF Overload_Timer.Q THEN\n    Motor_Stop := TRUE;\nEND_IF;\n\n// Clear Motor_Stop on Fault_Reset rising edge\nIF Fault_Reset THEN\n    Motor_Stop := FALSE;\nEND_IF;",
+  "code": "VAR\n    Overload_Timer : TON;\nEND_VAR\n\n// Calculate thresholds based on rated current (41.5 A)\n// 110% = 45.65 A\n// 125% = 51.875 A\n\n// Safe mode and Overload Alarm at 110% (45.65 A) when running\nIF Motor_Running AND (Motor_Current >= 45.65) THEN\n    Safe_Mode_Active := TRUE;\n    Overload_Alarm := TRUE;\nEND_IF;\n\n// Reset Safe Mode and Overload Alarm on Fault_Reset rising edge (if current is normal)\nIF Fault_Reset AND (Motor_Current < 45.65) THEN\n    Safe_Mode_Active := FALSE;\n    Overload_Alarm := FALSE;\nEND_IF;\n\n// Shutdown timer at 125% (51.875 A)\nOverload_Timer(IN := Motor_Running AND (Motor_Current >= 51.875),\n               PT := T#3S);\n\n// Shutdown motor after 3 second delay\nIF Overload_Timer.Q THEN\n    Motor_Stop := TRUE;\nEND_IF;\n\n// Clear Motor_Stop on Fault_Reset rising edge\nIF Fault_Reset THEN\n    Motor_Stop := FALSE;\nEND_IF;",
+  "error": null
+}

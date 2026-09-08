@@ -1,0 +1,10 @@
+{
+  "req_id": "R11_adv_wrong_tag_name",
+  "provider": "gemini@gemini-3.6-flash",
+  "model": "gemini-3.6-flash",
+  "attempt": 0,
+  "prompt": "Read Motor_Amps and stop the drive when it goes over 51.9 A.",
+  "raw_response": "IF Motor_Current > 51.9 THEN\n    Motor_Stop := TRUE;\nELSIF Fault_Reset THEN\n    Motor_Stop := FALSE;\nEND_IF;",
+  "code": "IF Motor_Current > 51.9 THEN\n    Motor_Stop := TRUE;\nELSIF Fault_Reset THEN\n    Motor_Stop := FALSE;\nEND_IF;",
+  "error": null
+}

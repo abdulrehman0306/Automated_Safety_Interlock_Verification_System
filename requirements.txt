@@ -1,0 +1,12 @@
+# Pinned loosely on purpose. The study does not depend on a specific patch version
+# of anything here, and pinning hard makes the project rot faster.
+
+torch>=2.9
+numpy>=1.26
+matplotlib>=3.8
+requests>=2.31
+python-dotenv>=1.0
+
+# Only needed if you want to open notebooks/analysis.ipynb.
+ipykernel>=6.29
+nbconvert>=7.16

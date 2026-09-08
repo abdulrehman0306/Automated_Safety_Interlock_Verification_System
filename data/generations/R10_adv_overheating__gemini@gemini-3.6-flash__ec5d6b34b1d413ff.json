@@ -1,0 +1,10 @@
+{
+  "req_id": "R10_adv_overheating",
+  "provider": "gemini@gemini-3.6-flash",
+  "model": "gemini-3.6-flash",
+  "attempt": 0,
+  "prompt": "Make sure the motor cannot overheat.",
+  "raw_response": "VAR\n    Overload_Timer : TON;\nEND_VAR\n\nOverload_Timer(IN := Motor_Running AND (Motor_Current > 41.5), PT := T#10S);\n\nOverload_Alarm := (Motor_Current > 41.5) OR (Motor_Winding_Temp > 110.0);\n\nIF Motor_Winding_Temp > 120.0 THEN\n    Safe_Mode_Active := TRUE;\nELSIF Fault_Reset AND (Motor_Winding_Temp <= 100.0) THEN\n    Safe_Mode_Active := FALSE;\nEND_IF;\n\nIF (Motor_Winding_Temp >= 130.0) OR Overload_Timer.Q THEN\n    Motor_Stop := TRUE;\nELSIF Fault_Reset THEN\n    Motor_Stop := FALSE;\nEND_IF;",
+  "code": "VAR\n    Overload_Timer : TON;\nEND_VAR\n\nOverload_Timer(IN := Motor_Running AND (Motor_Current > 41.5), PT := T#10S);\n\nOverload_Alarm := (Motor_Current > 41.5) OR (Motor_Winding_Temp > 110.0);\n\nIF Motor_Winding_Temp > 120.0 THEN\n    Safe_Mode_Active := TRUE;\nELSIF Fault_Reset AND (Motor_Winding_Temp <= 100.0) THEN\n    Safe_Mode_Active := FALSE;\nEND_IF;\n\nIF (Motor_Winding_Temp >= 130.0) OR Overload_Timer.Q THEN\n    Motor_Stop := TRUE;\nELSIF Fault_Reset THEN\n    Motor_Stop := FALSE;\nEND_IF;",
+  "error": null
+}

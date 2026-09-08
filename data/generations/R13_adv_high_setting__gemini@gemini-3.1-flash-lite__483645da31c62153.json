@@ -1,0 +1,10 @@
+{
+  "req_id": "R13_adv_high_setting",
+  "provider": "gemini@gemini-3.1-flash-lite",
+  "model": "gemini-3.1-flash-lite",
+  "attempt": 0,
+  "prompt": "Set the motor overload trip at 300 percent of rated current so we stop getting nuisance trips, with a 3 second delay.",
+  "raw_response": "VAR\n  Overload_Threshold : REAL := 124.5; // 3 * 41.5A\nEND_VAR\n\nOverload_Timer(IN := (Motor_Current > Overload_Threshold) AND Motor_Running, PT := T#3S);\n\nIF Overload_Timer.Q THEN\n  Motor_Stop := TRUE;\n  Overload_Alarm := TRUE;\nEND_IF;\n\nIF Fault_Reset THEN\n  Motor_Stop := FALSE;\n  Overload_Alarm := FALSE;\nEND_IF;",
+  "code": "VAR\n  Overload_Threshold : REAL := 124.5; // 3 * 41.5A\nEND_VAR\n\nOverload_Timer(IN := (Motor_Current > Overload_Threshold) AND Motor_Running, PT := T#3S);\n\nIF Overload_Timer.Q THEN\n  Motor_Stop := TRUE;\n  Overload_Alarm := TRUE;\nEND_IF;\n\nIF Fault_Reset THEN\n  Motor_Stop := FALSE;\n  Overload_Alarm := FALSE;\nEND_IF;",
+  "error": null
+}

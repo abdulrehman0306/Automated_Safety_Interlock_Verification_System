@@ -1,0 +1,10 @@
+{
+  "req_id": "R04_winding_temp",
+  "provider": "gemini@gemini-3-flash-preview",
+  "model": "gemini-3-flash-preview",
+  "attempt": 0,
+  "prompt": "Shut the motor down if the winding temperature exceeds 140 degrees C. The insulation is class F.",
+  "raw_response": "VAR\n    Overload_Timer : TON;\nEND_VAR\n\nIF Motor_Winding_Temp > 140.0 THEN\n    Motor_Stop := TRUE;\nEND_IF;\n\nIF Fault_Reset THEN\n    Motor_Stop := FALSE;\nEND_IF;",
+  "code": "VAR\n    Overload_Timer : TON;\nEND_VAR\n\nIF Motor_Winding_Temp > 140.0 THEN\n    Motor_Stop := TRUE;\nEND_IF;\n\nIF Fault_Reset THEN\n    Motor_Stop := FALSE;\nEND_IF;",
+  "error": null
+}

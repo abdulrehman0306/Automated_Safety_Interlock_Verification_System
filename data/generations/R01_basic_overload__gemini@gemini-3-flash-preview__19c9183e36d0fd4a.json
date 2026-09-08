@@ -1,0 +1,10 @@
+{
+  "req_id": "R01_basic_overload",
+  "provider": "gemini@gemini-3-flash-preview",
+  "model": "gemini-3-flash-preview",
+  "attempt": 0,
+  "prompt": "Stop the conveyor motor if the stator current stays above 51.9 A for 3 seconds.",
+  "raw_response": "VAR\n    Overload_Timer : TON;\nEND_VAR\n\nOverload_Timer(IN := Motor_Current > 51.9, PT := T#3S);\n\nIF Overload_Timer.Q THEN\n    Motor_Stop := TRUE;\nEND_IF;\n\nIF Fault_Reset THEN\n    Motor_Stop := FALSE;\nEND_IF;",
+  "code": "VAR\n    Overload_Timer : TON;\nEND_VAR\n\nOverload_Timer(IN := Motor_Current > 51.9, PT := T#3S);\n\nIF Overload_Timer.Q THEN\n    Motor_Stop := TRUE;\nEND_IF;\n\nIF Fault_Reset THEN\n    Motor_Stop := FALSE;\nEND_IF;",
+  "error": null
+}

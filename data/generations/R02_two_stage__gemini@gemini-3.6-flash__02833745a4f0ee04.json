@@ -1,0 +1,10 @@
+{
+  "req_id": "R02_two_stage",
+  "provider": "gemini@gemini-3.6-flash",
+  "model": "gemini-3.6-flash",
+  "attempt": 0,
+  "prompt": "The motor is rated 41.5 A. At 110 percent of rated current put the machine into safe mode and raise the overload alarm. At 125 percent shut the motor down completely. Use a 3 second delay on the shutdown.",
+  "raw_response": "VAR\n    Overload_Timer : TON;\nEND_VAR\n\nSafe_Mode_Active := Motor_Current >= 45.65;\nOverload_Alarm := Motor_Current >= 45.65;\n\nOverload_Timer(IN := (Motor_Current >= 51.875), PT := T#3S);\n\nMotor_Stop := Overload_Timer.Q;",
+  "code": "VAR\n    Overload_Timer : TON;\nEND_VAR\n\nSafe_Mode_Active := Motor_Current >= 45.65;\nOverload_Alarm := Motor_Current >= 45.65;\n\nOverload_Timer(IN := (Motor_Current >= 51.875), PT := T#3S);\n\nMotor_Stop := Overload_Timer.Q;",
+  "error": null
+}
