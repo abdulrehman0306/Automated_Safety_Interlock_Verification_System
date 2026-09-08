@@ -610,7 +610,7 @@ src/
   run_study.py      end to end pipeline and results table
   make_figures.py   charts
 tests/
-  known_bad_cases.py   17 cases with known faults
+  known_bad_cases.py   25 cases with known faults
   mock_generations.py  hand written stand in corpus for testing without a key
 data/
   generations/         every raw model response, committed so the study replays
